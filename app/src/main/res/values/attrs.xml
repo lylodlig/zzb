@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DividerView">
+        <attr name="dash_color" format="color" />
+        <attr name="dash_thickness" format="dimension" />
+        <attr name="width" format="dimension" />
+        <attr name="dash_width" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="DashLineView">
+        <attr name="pos" format="boolean" />
+        <attr name="distance" format="string" />
+    </declare-styleable>
+</resources>

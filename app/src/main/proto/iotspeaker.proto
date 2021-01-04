@@ -1,0 +1,167 @@
+syntax = "proto2";
+package instruct;
+/*
+物联网喇叭专用
+服务器主动发向客户端：下发参数可能是多个，也可能为空
+*/
+message ISSetREQ {
+    required int64 uid = 1; //命令标识
+    optional float lng = 2; //修改设备所在经度
+    optional float lat = 3; //修改设备所在纬度
+    optional string location = 4; //设备所在区县，语音广播使用，如四川汶川
+    optional string address = 5; //设备详细安装地址
+    optional string main_deliver = 6; //主发布服务器 格式如 221.237.152.216:9999
+    optional string auxi_deliver = 7; //从发布服务器 格式如 221.237.152.216:9999
+    optional string main_manager = 8; //主管理服务器 格式如 221.237.152.216:9999
+    optional float day_magnitude = 9; //早8点到晚8点最小预警震级
+    optional float day_intensity = 10; //早8点到晚8点最小预警烈度
+    optional float night_magnitude = 11; //晚上最小预警震级
+    optional float night_intensity = 12; //晚上最小预警烈度
+    optional bool enable_speaker = 13; //true表示可以打开预警广播，false表示禁用广播（预警、广播、预警演习、科普等都不能打开功放）
+    optional bool voice_insert = 14; //true表示开启语音插播，false表示禁用语音插播
+    optional bool temp_switch = 15; //true表示开启临时阈值开关，false表示关闭临时阈值开关
+    optional string signature = 16; //语音播放时的署名
+    optional bool enable_tts = 17; //是否开启文字转语音 text to sound
+    optional int32 volume = 18; //调整音量大小，合法值在0-100之间
+}
+
+/*
+物联网喇叭专用
+客户端响应服务器请求
+*/
+message ISSetResp {
+    required int64 uid = 1; //命令标识
+    required bool ok = 2; // true成功，false失败
+}
+
+/*
+物联网喇叭专用
+服务器主动发向客户端：要求客户端上传全部参数
+*/
+message ULISSetREQ {
+    required int64 uid = 1; //命令标识
+}
+
+/*
+物联网喇叭专用
+客户端响应服务器请求：必须回复全部参数
+*/
+message ULISSetResp {
+    required int64 uid = 1; //命令标识
+    required float lng = 2; //修改设备所在经度
+    required float lat = 3; //修改设备所在纬度
+    optional string location = 4; //设备所在区县，语音广播使用，如四川汶川
+    optional string address = 5; //设备详细安装地址
+    required string main_deliver = 6; //主发布服务器 格式如 221.237.152.216:9999
+    required string auxi_deliver = 7; //从发布服务器 格式如 221.237.152.216:9999
+    required string main_manager = 8; //主管理服务器 格式如 221.237.152.216:9999
+    required float day_magnitude = 9; //早8点到晚8点最小预警震级
+    optional float day_intensity = 10; //早8点到晚8点最小预警烈度
+    required float night_magnitude = 11; //晚上最小预警震级
+    optional float night_intensity = 12; //晚上最小预警烈度
+    optional bool enable_speaker = 13; //true表示可以打开预警广播，false表示禁用广播（预警、广播、预警演习、科普等都不能打开功放）
+    optional bool voice_insert = 14; //true表示开启语音插播，false表示禁用语音插播
+    optional bool temp_switch = 15; //true表示开启临时阈值开关，false表示关闭临时阈值开关
+    optional string signature = 16; //语音播放时的署名
+    optional bool enable_tts = 17; //是否开启文字转语音 text to sound
+    optional int32 volume = 18; //调整音量大小，合法值在0-100之间
+}
+
+/*
+物联网喇叭专用
+客户端主动上传参数
+*/
+message ActULISSetREQ {
+    required float lng = 1; //修改设备所在经度
+    required float lat = 2; //修改设备所在纬度
+    optional string location = 3; //设备所在区县，语音广播使用，如四川汶川
+    optional string address = 4; //设备详细安装地址
+    required string main_deliver = 5; //主发布服务器 格式如 221.237.152.216:9999
+    required string auxi_deliver = 6; //从发布服务器 格式如 221.237.152.216:9999
+    required string main_manager = 7; //主管理服务器 格式如 221.237.152.216:9999
+    required float day_magnitude = 8; //早8点到晚8点最小预警震级
+    optional float day_intensity = 9; //早8点到晚8点最小预警烈度
+    required float night_magnitude = 10; //晚上最小预警震级
+    optional float night_intensity = 11; //晚上最小预警烈度
+    optional bool enable_speaker = 12; //true表示可以打开预警广播，false表示禁用广播（预警、广播、预警演习、科普等都不能打开功放）
+    optional bool voice_insert = 13; //true表示开启语音插播，false表示禁用语音插播
+    optional bool temp_switch = 14; //true表示开启临时阈值开关，false表示关闭临时阈值开关
+    optional string signature = 15; //语音播放时的署名
+    optional bool enable_tts = 16; //是否开启文字转语音 text to sound
+    optional int32 volume = 17; //调整音量大小，合法值在0-100之间
+}
+
+/*
+物联网喇叭专用
+服务器回复响应
+*/
+message ActULISSetResp {
+    required bool ok = 1; // true成功，false失败
+}
+
+/*
+物联网喇叭专用
+服务器主动发向客户端：请求设备状态
+*/
+message ISStatREQ {
+    required int64 uid = 1; //命令标识
+}
+
+/*
+物联网喇叭专用
+客户端响应服务器请求：必须回复全部参数，统一所有设备的流程
+*/
+message ISStatResp {
+    required int64 uid = 1; //命令标识
+    required float inner_temperature = 2; //传感器温度
+    required string cur_version = 3; //版本号
+}
+
+/*
+物联网喇叭专用
+服务器主动发向客户端：下发参数可能是多个，也可能为空
+*/
+message ISCmdREQ {
+    required int64 uid = 1; //命令标识
+    /*reboot 重启设备
+    服务器发送到客户端：true表示请求重启设备；false表示停止重启设备
+    */
+    optional bool reboot = 2;
+
+    /*play_music “让我们荡起双浆”
+     服务器发送到客户端：true表示开始播放音乐；false表示停止播放音乐
+     */
+    optional bool music = 3;
+
+    /*play_popularization 科普语音
+    服务器发送到客户端：true表示开始播放科普语音；false表示停止播放科普语音
+    */
+    optional bool popularization = 4;
+
+    /* 上传日志
+    服务器发送到客户端：上传日志文件的地址  要求日志上传为.zip压缩格式
+    */
+    optional string log_url = 5;
+
+    /*
+    升级
+    服务器发送到客户端：升级程序所在地址
+    */
+    optional string upgrade_url = 6;
+
+    /*
+    广播
+    服务器发送到客户端：rtsp_url数据格式 "start rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov" "stop rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov"
+    如果是start表示开户广播，stop表示停止广播
+    */
+    optional string rtsp_url = 7;
+}
+
+/*
+物联网喇叭专用
+客户端回复服务器： 是否收到了命令
+*/
+message ISCmdResp {
+    required int64 uid = 1; //命令标识
+    required bool ok = 2; // true成功，false失败
+}

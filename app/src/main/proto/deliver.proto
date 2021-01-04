@@ -1,0 +1,57 @@
+syntax = "proto2";
+package deliver;
+option go_package = ".;deliver";//新增该行
+option java_package = "com.huania.eew";
+
+/*数据封装规则 2字节头部和4字节adler32采用大端序
+2字节头部+1字节包名长度+包名+protobuf数据+4字节adler32
+*/
+
+/*
+客户端主动发向服务器请求认证。tcp连接后立即向服务器发送
+*/
+message AuthRequest {
+    optional string species = 1;//类型：1:IoT-speaker 物联网喇叭  2: AI-speaker 智能音箱  3:receiver1 A9预警接收终端
+    optional string username = 2;//用户账号
+    optional string password = 3;//用户密码
+}
+
+/*
+服务器响应客户端的认证请求
+*/
+message AuthResponse {
+    optional bool authorization = 1;//true为认证通过，false为认证失败
+    optional string interpretation = 2;//如果authorization为false，则为失败原因。如果账号是-1，密码是5kdrfo%W6JJyuau9dlA41^AAJZoc!9cr，则返回新账号密码，interpretation内容是username:password
+}
+
+/*
+客户端每30秒主动向服务器上报心跳，服务器收到后立即响应心跳
+*/
+message Heartbeat {
+}
+
+/*
+当地震发生时，服务器主动向客户端白推送预警
+*/
+message QuakeRequest{
+    optional int64 event_id = 1;//地震的ID
+    optional int32 updates = 2;//第几报
+    optional float magnitude = 3; //震级
+    optional string epicenter = 4;//震中地名
+    optional float longitude = 5;//经度
+    optional float latitude = 6; //纬度
+    optional float depth = 7;    //震源深度
+    optional int64 start_at = 8;  //发震时刻 1970以来的毫秒
+    optional int64 update_at = 9;  //更新时刻 1970以来的毫秒
+    optional int32 stations = 10;  //几台站地震
+    optional bool inside_net = 11;//true表示在预警网内
+}
+
+/*
+客户端收到地震后，回复服务器
+*/
+message QuakeResponse{
+    optional int64 event_id = 1;//地震的ID
+    optional int32 updates = 2;//第几报
+    optional bool alert = 3;//true表示已经触发了喇叭报警
+}

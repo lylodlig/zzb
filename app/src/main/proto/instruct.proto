@@ -1,0 +1,89 @@
+syntax = "proto2";
+package instruct;
+option go_package = ".;instruct";//新增该行
+
+/*数据封装规则 2字节头部和4字节adler32采用大端序
+2字节头部+1字节包名长度+包名+protobuf数据+4字节adler32
+*/
+
+/*
+客户端主动发向服务器请求认证。tcp连接后立即向服务器发送
+*/
+message AuthRequest {
+  required string species = 1;//类型：1:IoT-speaker 物联网喇叭  2: AI-speaker 智能音箱  3:Single-Receiver A9预警接收终端 4：EEW-Receiver 终端2.0
+  required string version = 2;//版本
+  required string username = 3;//用户账号
+  required string password = 4;//用户密码
+}
+
+/*
+服务器响应客户端的认证请求
+*/
+message AuthResponse {
+  required bool authorization = 1;//true为认证通过，false为认证失败
+  optional string interpretation = 2;//如果authorization为false，则为失败原因。
+  optional string url = 3;//升级地址，服务器判断需要升级
+}
+
+/*
+客户端每30秒主动向服务器上报心跳，服务器收到后立即响应心跳
+*/
+message Heartbeat {
+}
+
+/*
+地震演习发生时，服务器主动向客户端白推送预警
+*/
+message QuakeRequest{
+  required int64 type = 1;//地震演习的类型 1是远程演习
+  required int64 event_id = 2;//地震的ID
+  required int32 updates = 3;//第几报
+  required float magnitude = 4; //震级
+  required string epicenter = 5;//震中地名
+  required float longitude = 6;//经度
+  required float latitude = 7; //纬度
+  required float depth = 8;    //震源深度
+  required int64 start_at = 9;  //发震时刻 1970以来的毫秒
+  required int64 update_at = 10;  //更新时刻 1970以来的毫秒
+  required int32 stations = 11;  //几台站地震
+  required bool inside_net = 12;//true表示在预警网内
+}
+
+/*
+客户端收到演习地震后，回复服务器
+*/
+message QuakeResponse{
+  required int64 event_id = 1;//地震的ID
+  required int32 updates = 2;//第几报
+  required bool alert = 3;//是否触发了喇叭报警
+}
+
+/*数据封装规则 2字节头部和4字节adler32采用大端序
+2字节头部+1字节包名长度+包名+protobuf数据+4字节adler32
+*/
+
+/*
+客户端主动发向服务器请求视频存放路径
+*/
+message RotateRequest {
+  required int32 class = 1;//类型：1:视频  2: 图片  3:文字
+}
+/*
+服务器收到请求后，回复所有视频存放路径
+*/
+message VideoResponse{
+  repeated string location = 1;//路径
+}
+/*
+服务器收到请求后，回复所有图片存放路径
+*/
+message ImageResponse{
+  repeated string location = 1;//路径
+}
+/*
+服务器收到请求后，回复所有文字
+*/
+message TextResponse{
+  repeated string text = 1;//文字
+}
+

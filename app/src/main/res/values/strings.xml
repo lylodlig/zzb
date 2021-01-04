@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">珍珍厨房</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="countdown">倒计时(秒)&#160;&#160;&#8201;</string>
+    <string name="earthquake_distance">震中距&#160;&#160;&#8201;</string>
+
+    <string name="daily_quake_time">发震时刻&#160;&#160;&#8201;</string>
+    <string name="daily_hierarchy">%级</string>
+    <string name="daily_du">%度</string>
+    <string name="daily_epicenter">地震震中&#160;&#160;&#8201;</string>
+
+    <string name="daily_n">，N</string>
+
+    <string name="daily_depth">震源深度&#160;&#160;&#8201;</string>
+    <string name="daily_loc">预警区域&#160;&#160;&#8201;</string>
+    <string name="daily_magnitude">预警震级&#160;&#160;&#8201;</string>
+    <string name="daily_intensity">预估烈度&#160;&#160;&#8201;</string>
+    <string name="self_check"><u>自检记录</u></string>
+    <string name="un_connect">未连接</string>
+    <string name="normal">正常</string>
+
+
+    <string name="d">&amp;&amp;</string>
+    <string name="template_daily_epicenter">%1&#160;E%2,N%3</string>
+    <string name="template_km">%公里</string>
+    <string name="template_second">%<u>s</u></string>
+</resources>
